@@ -1,3 +1,4 @@
+using HospitalManagementSystem.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace HospitalManagementSystem.Data
@@ -5,6 +6,20 @@ namespace HospitalManagementSystem.Data
 {
     public class ApplicationUser : IdentityUser
     {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Address { get; set; }
+        public string EmergencyPhoneNumber { get; set; }
+        public DateTime DateofBirth { get; set; }
+        public string MotherName{ get; set; }
+        public string FatherName { get; set; }
+        public string NationalIdNumber { get; set; }
+        public int? GenderId { get; set; }
+        public SystemCodeDetail Gender { get; set; }
+        public int? BloodGroupId { get; set; }
+        public SystemCodeDetail BloodGroup { get; set; }
+        public int? MaritalStatusId { get; set; }
+        public SystemCodeDetail MaritalStatus { get; set; }
     }
 
 }
