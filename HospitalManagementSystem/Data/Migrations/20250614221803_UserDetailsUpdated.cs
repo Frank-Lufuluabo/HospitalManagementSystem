@@ -113,7 +113,7 @@ namespace HospitalManagementSystem.Migrations
                         column: x => x.ModifiedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -145,13 +145,13 @@ namespace HospitalManagementSystem.Migrations
                         column: x => x.ModifiedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SystemCodeDetails_SystemCodes_SystemCodeId",
                         column: x => x.SystemCodeId,
                         principalTable: "SystemCodes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HospitalManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250614215832_UserDetailsUpdated")]
+    [Migration("20250614221803_UserDetailsUpdated")]
     partial class UserDetailsUpdated
     {
         /// <inheritdoc />
@@ -391,7 +391,7 @@ namespace HospitalManagementSystem.Migrations
                     b.HasOne("HospitalManagementSystem.Data.ApplicationUser", "ModifiedBy")
                         .WithMany()
                         .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("CreatedBy");
@@ -410,13 +410,13 @@ namespace HospitalManagementSystem.Migrations
                     b.HasOne("HospitalManagementSystem.Data.ApplicationUser", "ModifiedBy")
                         .WithMany()
                         .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("HospitalManagementSystem.Models.SystemCode", "SystemCode")
                         .WithMany()
                         .HasForeignKey("SystemCodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("CreatedBy");

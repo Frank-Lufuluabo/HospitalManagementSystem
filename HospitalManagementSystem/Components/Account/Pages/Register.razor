@@ -20,37 +20,69 @@
 <h1>Register</h1>
 
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-12">
         <StatusMessage Message="@Message" />
         <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
             <DataAnnotationsValidator />
             <h2>Create a new account.</h2>
             <hr />
+
+
+            <div class="row">
             <ValidationSummary class="text-danger" role="alert" />
-            <div class="form-floating mb-3">
+            <div class="col-md-6 form-floating mb-3">
+                <InputText @bind-Value="Input.FirstName" id="Input.FirstName" class="form-control" autocomplete="firstName" aria-required="true" />
+                <label for="Input.FirstName">First Name</label>
+                <ValidationMessage For="() => Input.FirstName" class="text-danger" />
+            </div>
+                <div class="col-md-6 form-floating mb-3">
+                <InputText @bind-Value="Input.LastName" id="Input.LastName" class="form-control" autocomplete="lastName" aria-required="true" />
+                <label for="Input.LastName">Last Name</label>
+                <ValidationMessage For="() => Input.LastName" class="text-danger" />
+            </div>
+                <div class="col-md-6 form-floating mb-3">
+                <InputText @bind-Value="Input.NationalIdNumber" id="Input.NationalIdNumber" class="form-control" autocomplete="nationalIdNumber" aria-required="true" />
+                <label for="Input.NationalIdNumber">National Id No</label>
+                <ValidationMessage For="() => Input.NationalIdNumber" class="text-danger" />
+            </div>
+                <div class="col-md-6 form-floating mb-6">
+                <InputText @bind-Value="Input.Address" id="Input.Address" class="form-control" autocomplete="address" aria-required="true" />
+                <label for="Input.Address">Address</label>
+                <ValidationMessage For="() => Input.Address" class="text-danger" />
+            </div>
+                <div class="col-md-6 form-floating mb-6">
+                <InputText @bind-Value="Input.MotherName" id="Input.MotherName" class="form-control" autocomplete="motherName" aria-required="true" />
+                <label for="Input.MotherName">Mother Name</label>
+                <ValidationMessage For="() => Input.MotherName" class="text-danger" />
+            </div>
+                <div class="col-md-6 form-floating mb-6">
+                <InputText @bind-Value="Input.FatherName" id="Input.FatherName" class="form-control" autocomplete="fatherName" aria-required="true" />
+                <label for="Input.FatherName">Father Name</label>
+                <ValidationMessage For="() => Input.FatherName" class="text-danger" />
+            </div>
+                <div class="col-md-6 form-floating mb-6">
+                <InputText @bind-Value="Input.EmergencyPhoneNumber" id="Input.EmergencyPhoneNumber" class="form-control" autocomplete="emergencyPhoneNumber" aria-required="true" />
+                <label for="Input.EmergencyPhoneNumber">Emergency Phone Number</label>
+                <ValidationMessage For="() => Input.EmergencyPhoneNumber" class="text-danger" />
+            </div>
+                <div class="col-md-6 form-floating mb-6">
                 <InputText @bind-Value="Input.Email" id="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                 <label for="Input.Email">Email</label>
                 <ValidationMessage For="() => Input.Email" class="text-danger" />
             </div>
-            <div class="form-floating mb-3">
+                <div class="col-md-6 form-floating mb-3">
                 <InputText type="password" @bind-Value="Input.Password" id="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                 <label for="Input.Password">Password</label>
                 <ValidationMessage For="() => Input.Password" class="text-danger" />
             </div>
-            <div class="form-floating mb-3">
+                <div class="col-md-6 form-floating mb-3">
                 <InputText type="password" @bind-Value="Input.ConfirmPassword" id="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                 <label for="Input.ConfirmPassword">Confirm Password</label>
                 <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
             </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            </div>
         </EditForm>
-    </div>
-    <div class="col-lg-4 col-lg-offset-2">
-        <section>
-            <h3>Use another service to register.</h3>
-            <hr />
-            <ExternalLoginPicker />
-        </section>
     </div>
 </div>
 
@@ -141,5 +173,40 @@
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; } = "";
+
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+
+        [Display(Name = "Emergency Phone Number")]
+        public string EmergencyPhoneNumber { get; set; }
+
+        [Display(Name = "Date of Birth")]
+        public DateTime DateofBirth { get; set; }
+
+        [Display(Name = "Mother Name")]
+        public string MotherName { get; set; }
+
+
+        [Display(Name = "Father Name")]
+        public string FatherName { get; set; }
+
+
+        [Display(Name = "National Id No")]
+        public string NationalIdNumber { get; set; }
+
+        [Display(Name = "Sex")]
+        public int? GenderId { get; set; }
+
+        [Display(Name = "Blood Group")]
+        public int? BloodGroupId { get; set; }
+
+        [Display(Name = "Marital Status")]
+        public int? MaritalStatusId { get; set; }
     }
 }
