@@ -1,0 +1,28 @@
+﻿@page "/addsystemcodes"
+@using HospitalManagementSystem.Models
+<PageTitle> New System Codes</PageTitle>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label for="systemCodeCode">Code</label>
+                <InputText for="Code" class="form-control" @bind-Value="@systemCode.Code" />
+                <ValidationMessage For="@(() => systemCode.Code)" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="systemCodeName">Name</label>
+                <InputText for="Description" class="form-control" @bind-Value="@systemCode.Description" />
+                <ValidationMessage For="@(() => systemCode.Description)" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+
+    public SystemCode systemCode { get; set; } = new ();
+
+}
