@@ -1,28 +1,66 @@
 ﻿@page "/addsystemcodes"
+@using HospitalManagementSystem.Data
 @using HospitalManagementSystem.Models
+@using Microsoft.AspNetCore.Identity;
+@using Microsoft.AspNetCore.Authorization;
+@inject UserManager<ApplicationUser> usermanager;
 <PageTitle> New System Codes</PageTitle>
 
 <div class="row">
-    <div class="col-md-12">
-        <div class="row">
-            <div class="form-group col-md-6">
-                <label for="systemCodeCode">Code</label>
-                <InputText for="Code" class="form-control" @bind-Value="@systemCode.Code" />
-                <ValidationMessage For="@(() => systemCode.Code)" />
+    <EditForm Model="systemCode" OnValidSubmit="CreateNewSystemCode" FormName="addsystemcode">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="col-md-12">
+            <h3>Add New System Code</h3>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="systemCodeCode">Code</label>
+                    <InputText for="Code" class="form-control" @bind-Value="@systemCode.Code" />
+                    <ValidationMessage For="@(() => systemCode.Code)" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="systemCodeName">Name</label>
+                    <InputText for="Description" class="form-control" @bind-Value="@systemCode.Description" />
+                    <ValidationMessage For="@(() => systemCode.Description)" />
+                </div>
             </div>
-            <div class="form-group col-md-6">
-                <label for="systemCodeName">Name</label>
-                <InputText for="Description" class="form-control" @bind-Value="@systemCode.Description" />
-                <ValidationMessage For="@(() => systemCode.Description)" />
+            <div class="form-group mt-4">
+                <button type="button" class="btn btn-warning float-start">Back to List</button>
+
+                <button type="submit" class="btn btn-primary fload-end">Save System Code</button>
+
             </div>
         </div>
-    </div>
+    </EditForm>
 </div>
 
 
 
 @code {
 
+    [SupplyParameterFromForm]
     public SystemCode systemCode { get; set; } = new ();
 
+    public string UserId { get; set; } 
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = (await authenticationStateTask).User;
+        if (user.Identity.IsAuthenticated)
+        {
+            var currentuser = await usermanager.GetUserAsync(user);
+            UserId = currentuser.Id;
+
+        }
+    }
+
+    protected async Task CreateNewSystemCode()
+    {
+        systemCode.CreatedOn = DateTime.UtcNow;
+        systemCode.CreatedById = UserId;
+
+    }
 }
