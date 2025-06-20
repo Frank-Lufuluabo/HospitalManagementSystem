@@ -11,8 +11,8 @@ namespace HospitalManagementSystem.Models
 
     public class UserModifiedActivity
     {
-        public string ModifiedById { get; set; }
+        public string? ModifiedById { get; set; }
         public ApplicationUser ModifiedBy { get; set; }
-        public DateTime ModifiedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace HospitalManagementSystem.Data
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string FullName => $"{FirstName} {LastName}";
         public string Address { get; set; }
         public string EmergencyPhoneNumber { get; set; }
         public DateTime DateofBirth { get; set; }

@@ -4,6 +4,9 @@
 @using Microsoft.AspNetCore.Identity;
 @using Microsoft.AspNetCore.Authorization;
 @inject UserManager<ApplicationUser> usermanager;
+@attribute [Authorize]
+@inject NavigationManager navigation
+
 <PageTitle> New System Codes</PageTitle>
 
 <div class="row">
@@ -25,9 +28,14 @@
                     <InputText for="Description" class="form-control" @bind-Value="@systemCode.Description" />
                     <ValidationMessage For="@(() => systemCode.Description)" />
                 </div>
+                <div class="form-group col-md-6">
+                    <label for="systemCodeOrderNo">Order No</label>
+                    <InputNumber for="OrderNo" class="form-control" @bind-Value="@systemCode.OrderNo" />
+                    <ValidationMessage For="@(() => systemCode.OrderNo)" />
+                </div>
             </div>
             <div class="form-group mt-4">
-                <button type="button" class="btn btn-warning float-start">Back to List</button>
+                <button type="button" @onclick="()=>BacktoList()" class="btn btn-warning float-start">Back to List</button>
 
                 <button type="submit" class="btn btn-primary fload-end">Save System Code</button>
 
@@ -44,6 +52,9 @@
     public SystemCode systemCode { get; set; } = new ();
 
     public string UserId { get; set; } 
+
+  
+    [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -53,7 +64,6 @@
         {
             var currentuser = await usermanager.GetUserAsync(user);
             UserId = currentuser.Id;
-
         }
     }
 
@@ -61,6 +71,14 @@
     {
         systemCode.CreatedOn = DateTime.UtcNow;
         systemCode.CreatedById = UserId;
-
+        var result = await SystemCodeService.AddSystemCodeAsync(systemCode);
+        // snackBar.Add("System Code created successfully", Severity.Success);
+        navigation.NavigateTo("/systemcodes");
     }
+
+    public void BacktoList()
+    {
+        navigation.NavigateTo("/systemcodes");
+    }
+    
 }

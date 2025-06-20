@@ -1,64 +1,62 @@
 ﻿@page "/systemcodes"
 @attribute [StreamRendering]
+@using HospitalManagementSystem.Data
+@using HospitalManagementSystem.Models
+@using Microsoft.AspNetCore.Identity;
+@using Microsoft.AspNetCore.Authorization;
+@inject UserManager<ApplicationUser> usermanager;
+@attribute [Authorize]
+@inject NavigationManager navigation
 
 <PageTitle>System Codes List</PageTitle>
 
 <h1>System codes List</h1>
 
-@if (forecasts == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
     <p><a href="/addsystemcodes" class="btn btn-primary float-end">Add New System Code</a></p>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th aria-label="Temperature in Celsius">Temp. (C)</th>
-                <th aria-label="Temperature in Farenheit">Temp. (F)</th>
-                <th>Summary</th>
+                <th>Code</th>
+                <th>Description</th>
+                <th>Order No</th>
+                <th>Created By</th>
+                <th>Created On</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
-            {
+           @foreach (var systemcode in SystemCodesList)
+             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                <td>@systemcode.Code</td>
+                <td>@systemcode.Description</td>
+                <td>Order No</td>
+                <td>@systemcode.CreatedBy.FullName</td>
+                <td>@systemcode.CreatedOn</td>
                 </tr>
-            }
+             }
         </tbody>
     </table>
-}
 
 @code {
-    private WeatherForecast[]? forecasts;
+
+    public List<SystemCode> SystemCodesList { get; set; } = new ();
+  
+    public string UserId { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        // Simulate asynchronous loading to demonstrate streaming rendering
-        await Task.Delay(500);
+        var user = (await authenticationStateTask).User;
+        if (user.Identity.IsAuthenticated)
+        {
+            var currentuser = await usermanager.GetUserAsync(user);
+            UserId = currentuser.Id;
+        }
 
-        var startDate = DateOnly.FromDateTime(DateTime.Now);
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = startDate.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = summaries[Random.Shared.Next(summaries.Length)]
-            }).ToArray();
+        SystemCodesList = await SystemCodeService.GetSystemCodesAsync();
     }
-
-    private class WeatherForecast
-    {
-        public DateOnly Date { get; set; }
-        public int TemperatureC { get; set; }
-        public string? Summary { get; set; }
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-    }
+       
 }

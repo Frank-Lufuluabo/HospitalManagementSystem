@@ -1,6 +1,7 @@
 ﻿using HospitalManagementSystem.Data;
 using HospitalManagementSystem.Interfaces;
 using HospitalManagementSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HospitalManagementSystem.Services
 {
@@ -12,34 +13,72 @@ namespace HospitalManagementSystem.Services
         {
             _context = context;
         }
-        public Task<SystemCode> AddSystemCodeAsync(SystemCode systemCode)
+
+        public async Task<List<SystemCode>> GetSystemCodesAsync()
         {
-            throw new NotImplementedException();
+            var systemCodes = await _context.SystemCodes
+               .Include(sc => sc.CreatedBy)
+               .Include(sc => sc.ModifiedBy)
+               .ToListAsync();
+            return systemCodes;
         }
 
-        public Task<SystemCode> DeleteSystemCodeAsync(int id)
+        public async Task<SystemCode> GetSystemCodeByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var systemCode = await _context.SystemCodes
+              .Include(sc => sc.CreatedBy)
+              .Include(sc => sc.ModifiedBy)
+              .FirstOrDefaultAsync(sc => sc.Id == id);
+            return systemCode;
         }
 
-        public Task<SystemCode> GetSystemCodeByIdAsync(int id)
+        public async Task<List<SystemCodeDetail>> GetSystemCodeDetailsAsync(int systemCodeId)
         {
-            throw new NotImplementedException();
+            var systemCodeDetails = await _context.SystemCodeDetails
+              .Include(sc => sc.SystemCode)
+              .Include(sc => sc.CreatedBy)
+              .Include(sc => sc.ModifiedBy)
+              .Where(sc => sc.SystemCodeId == systemCodeId)
+              .ToListAsync();
+            return systemCodeDetails;
         }
 
-        public Task<List<SystemCodeDetail>> GetSystemCodeDetailsAsync(int systemCodeId)
+        public async Task<SystemCode> AddSystemCodeAsync(SystemCode systemCode)
         {
-            throw new NotImplementedException();
+            systemCode.CreatedOn = DateTime.UtcNow;
+            await _context.SystemCodes.AddAsync(systemCode);
+            await _context.SaveChangesAsync();
+            return systemCode;
         }
 
-        public Task<List<SystemCode>> GetSystemCodesAsync()
+        public async Task<SystemCode> UpdateSystemCodeAsync(SystemCode systemCode)
         {
-            throw new NotImplementedException();
-        }
+            var existingSystemCode = await _context.SystemCodes.FindAsync(systemCode.Id);
+            if (existingSystemCode == null)
+            {
+                return null;
+            }
+            existingSystemCode.Code = systemCode.Code;
+            existingSystemCode.Description = systemCode.Description;
+            existingSystemCode.OrderNo = systemCode.OrderNo;
+            existingSystemCode.ModifiedById = systemCode.ModifiedById;
+            existingSystemCode.ModifiedOn = DateTime.UtcNow;
+            _context.SystemCodes.Update(existingSystemCode);
+            await _context.SaveChangesAsync();
+            return existingSystemCode;
 
-        public Task<SystemCode> UpdateSystemCodeAsync(SystemCode systemCode)
+        }
+        public async Task<SystemCode> DeleteSystemCodeAsync(int id)
         {
-            throw new NotImplementedException();
+            var systemCode = await _context.SystemCodes.FindAsync(id);
+            if (systemCode == null)
+            {
+                return null;
+            }
+            _context.SystemCodes.Remove(systemCode);
+            await _context.SaveChangesAsync();
+            return systemCode;
         }
     }
 }
+ 
