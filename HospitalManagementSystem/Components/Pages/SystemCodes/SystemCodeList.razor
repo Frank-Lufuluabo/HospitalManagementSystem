@@ -7,41 +7,47 @@
 @inject UserManager<ApplicationUser> usermanager;
 @attribute [Authorize]
 @inject NavigationManager navigation
+@using MudBlazor
 
 <PageTitle>System Codes List</PageTitle>
+<MuddCard Elevation="28">
+    <MudCardHeader>
+        <MudCardContent>
+            <div class="d-flex justify-content-end">
+                <MudButton Href="/addsystemcode" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add">
+                    Add System Code
+                </MudButton>
+            </div>
+        </MudCardContent>
+    </MudCardHeader>
+    <MudCardContent>
 
-<h1>System codes List</h1>
 
-    <p><a href="/addsystemcodes" class="btn btn-primary float-end">Add New System Code</a></p>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Code</th>
-                <th>Description</th>
-                <th>Order No</th>
-                <th>Created By</th>
-                <th>Created On</th>
-            </tr>
-        </thead>
-        <tbody>
-           @foreach (var systemcode in SystemCodesList)
-             {
-                <tr>
-                <td>@systemcode.Code</td>
-                <td>@systemcode.Description</td>
-                <td>Order No</td>
-                <td>@systemcode.CreatedBy.FullName</td>
-                <td>@systemcode.CreatedOn</td>
-                </tr>
-             }
-        </tbody>
-    </table>
+@* <p><a href="/addsystemcodes" class="btn btn-primary float-end">Add New System Code</a></p> *@
+        <MudDataGrid Items="@SystemCodesList" Filterable="false" SortMode="@SortMode.None" Groupable="false">
+            <Columns>
+                <PropertyColumn Property="x => x.Code" Title="Code Name" />
+                <PropertyColumn Property="x => x.Description" Title="Code Description" />
+                <PropertyColumn Property="x => x.OrderNo" />
+                <PropertyColumn Property="x => x.CreatedBy.FullName" />
+                <PropertyColumn Property="x => x.CreatedOn" />
+                <TemplateColumn CellClass="d-flex justify-end">
+                    <CellTemplate>
+                        <MudStack Row>
+                            <MudButton Variant="Variant.Filled" StatrtIcon="@Icons.Material.Filled.Edit" Color="Color.Primary">Edit</MudButton>
+                            <MudButton Variant="Variant.Filled" StatrtIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
+                        </MudStack>
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+        </MudDataGrid>
+    </MudCardContent>
+</MuddCard>
 
 @code {
 
-    public List<SystemCode> SystemCodesList { get; set; } = new ();
-  
+    public List<SystemCode> SystemCodesList { get; set; } = new();
+
     public string UserId { get; set; }
 
     [CascadingParameter]
@@ -58,5 +64,5 @@
 
         SystemCodesList = await SystemCodeService.GetSystemCodesAsync();
     }
-       
+
 }
