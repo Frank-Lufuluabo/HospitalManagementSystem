@@ -1,4 +1,4 @@
-﻿@page "/addsystemcodes"
+﻿@page "/addsystemcodedetail"
 @using HospitalManagementSystem.Data
 @using HospitalManagementSystem.Models
 @using Microsoft.AspNetCore.Identity;
@@ -51,10 +51,10 @@
 @code {
 
     [SupplyParameterFromForm]
-    public SystemCode systemCode { get; set; } = new ();
+    public SystemCode systemCode { get; set; } = new();
 
-    public string UserId { get; set; } 
-      
+    public string UserId { get; set; }
+
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
@@ -81,5 +81,5 @@
     {
         navigation.NavigateTo("/systemcodes");
     }
-    
+
 }

@@ -1,5 +1,6 @@
-﻿@page "/systemcodes"
+﻿@page "/systemcodesdetails"
 @attribute [StreamRendering]
+
 @using HospitalManagementSystem.Data
 @using HospitalManagementSystem.Models
 @using Microsoft.AspNetCore.Identity;
@@ -8,33 +9,33 @@
 @attribute [Authorize]
 @inject NavigationManager navigation
 @using MudBlazor
-@if (SystemCodesList == null)
+@if (SystemCodeDetailsList == null)
 {
     <MudProgressCircular Color="Color.Primary" class="spinner-border" Indeterminate="true" />
 }
 else
 {
-    <PageTitle>System Codes List</PageTitle>
+    <PageTitle>System Code Details List</PageTitle>
     <MudCard Elevation="28">
         <MudCardHeader>
             <MudCardContent>
                 <div class="d-flex justify-content-end">
                     <MudButton Href="/addsystemcode" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add">
-                        Add System Code
+                        Add System Code Details
                     </MudButton>
                 </div>
             </MudCardContent>
         </MudCardHeader>
         <MudCardContent>
 
-            @* <p><a href="/addsystemcodes" class="btn btn-primary float-end">Add New System Code</a></p> *@
-            <MudDataGrid Items="@SystemCodesList" Filterable="false" SortMode="@SortMode.None" Groupable="false">
+            <MudDataGrid Items="@SystemCodeDetailsList" Filterable="false" SortMode="@SortMode.None" Groupable="false">
                 <Columns>
                     <PropertyColumn Property="x => x.Code" Title="Code Name" />
                     <PropertyColumn Property="x => x.Description" Title="Code Description" />
+                    <PropertyColumn Property="x => x.SystemCode.Code" Title="Parent Code" />
                     <PropertyColumn Property="x => x.OrderNo" />
-                    <PropertyColumn Property="x => x.CreatedBy.FullName" />
-                    <PropertyColumn Property="x => x.CreatedOn" Title="Created By" />
+                    <PropertyColumn Property="x => x.CreatedBy.FullName" Title="Created By"/>
+                    <PropertyColumn Property="x => x.CreatedOn" />
                     <TemplateColumn CellClass="d-flex justify-end">
                         <CellTemplate>
                             <MudStack Row>
@@ -51,7 +52,7 @@ else
 
 @code {
 
-    public List<SystemCode> SystemCodesList { get; set; } = new();
+    public List<SystemCodeDetail> SystemCodeDetailsList { get; set; } = new();
 
     public string UserId { get; set; }
 
@@ -67,7 +68,7 @@ else
             UserId = currentuser.Id;
         }
 
-        SystemCodesList = await SystemCodeService.GetSystemCodesAsync();
+        SystemCodeDetailsList = await SystemCodeDetailService.GetSystemCodeDetailsAsync();
     }
 
 }
