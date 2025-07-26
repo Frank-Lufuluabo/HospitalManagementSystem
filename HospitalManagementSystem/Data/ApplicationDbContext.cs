@@ -8,6 +8,8 @@ namespace HospitalManagementSystem.Data
     {
         public DbSet<SystemCodeDetail> SystemCodeDetails { get; set; }
         public DbSet<SystemCode> SystemCodes { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<Department> Departments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

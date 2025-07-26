@@ -9,7 +9,7 @@
 @attribute [Authorize]
 @inject NavigationManager navigation
 @using MudBlazor
-@if (SystemCodeDetailsList == null)
+@if (SystemCodesDetailsList == null)
 {
     <MudProgressCircular Color="Color.Primary" class="spinner-border" Indeterminate="true" />
 }
@@ -28,7 +28,7 @@ else
         </MudCardHeader>
         <MudCardContent>
 
-            <MudDataGrid Items="@SystemCodeDetailsList" Filterable="false" SortMode="@SortMode.None" Groupable="false">
+            <MudDataGrid Items="@SystemCodesDetailsList" Filterable="false" SortMode="@SortMode.None" Groupable="false">
                 <Columns>
                     <PropertyColumn Property="x => x.Code" Title="Code Name" />
                     <PropertyColumn Property="x => x.Description" Title="Code Description" />
@@ -52,7 +52,7 @@ else
 
 @code {
 
-    public List<SystemCodeDetail> SystemCodeDetailsList { get; set; } = new();
+    public List<SystemCodeDetail> SystemCodesDetailsList { get; set; } = new();
 
     public string UserId { get; set; }
 
@@ -68,7 +68,6 @@ else
             UserId = currentuser.Id;
         }
 
-        SystemCodeDetailsList = await SystemCodeDetailService.GetSystemCodeDetailsAsync();
+        SystemCodesDetailsList = await SystemCodeDetailService.GetSystemCodeDetailsAsync();
     }
-
 }

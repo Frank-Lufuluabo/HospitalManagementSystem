@@ -43,6 +43,8 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 
 builder.Services.AddScoped<ISystemCodeRepository, SystemCodeRepository>();
 builder.Services.AddScoped<ISystemCodeDetailsRepository, SystemCodeDetailsRepository>();
+builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
 builder.Services.AddMudServices();
 
