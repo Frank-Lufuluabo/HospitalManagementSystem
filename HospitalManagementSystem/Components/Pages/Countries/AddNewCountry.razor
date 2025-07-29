@@ -1,4 +1,4 @@
-﻿@page "/adddepartment"
+﻿@page "/addcountry"
 @using HospitalManagementSystem.Data
 @using HospitalManagementSystem.Models
 @using Microsoft.AspNetCore.Identity;
@@ -8,28 +8,26 @@
 @attribute [Authorize]
 @inject NavigationManager navigation
 
-
-
 <div class="mx-2">
     <MudPaper Elevation="15" Class="p-4">
         <div class="row">
-            <EditForm Model="department" OnValidSubmit="CreateNewDepartment" FormName="addDepartmentForm">
+            <EditForm Model="country" OnValidSubmit="CreateNewCountry" FormName="addDepartment">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
                 <div class="col-md-12">
-                    <h3>Add New Department</h3>
+                    <h3>Add New Country</h3>
                 </div>
                 <div class="col-md-12">
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label for="depratmentCode">Code</label>
-                            <InputText for="Code" class="form-control" @bind-Value="@department.Code" />
-                            <ValidationMessage For="@(() => department.Code)" />
+                            <label for="countryCode">Code</label>
+                            <InputText for="Code" class="form-control" @bind-Value="@country.Code" />
+                            <ValidationMessage For="@(() => country.Code)" />
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="departmentName">Name</label>
-                            <InputText for="Name" class="form-control" @bind-Value="@department.Name" />
-                            <ValidationMessage For="@(() => department.Name)" />
+                            <label for="countryName">Name</label>
+                            <InputText for="Name" class="form-control" @bind-Value="@country.Name" />
+                            <ValidationMessage For="@(() => country.Name)" />
                         </div>
                     </div>
                     <div class="form-group mt-4">
@@ -40,7 +38,7 @@
                                 </MudButton>
 
                                 <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save">
-                                    Save Department
+                                    Save Country
                                 </MudButton>
                             </MudStack>
                         </MudItem>
@@ -53,7 +51,7 @@
 @code {
 
     [SupplyParameterFromForm]
-    public Department department { get; set; } = new();
+    public Country country { get; set; } = new();
 
     public string UserId { get; set; }
 
@@ -71,17 +69,17 @@
     }
 
 
-    protected async Task CreateNewDepartment()
+    protected async Task CreateNewCountry()
     {
-        department.CreatedOn = DateTime.UtcNow;
-        department.CreatedById = UserId;
-        var result = await DepartmentService.AddDepartmentAsync(department);
-        snackBar.Add("Department created successfully", Severity.Success);
-        navigation.NavigateTo("/departments");
+        country.CreatedOn = DateTime.UtcNow;
+        country.CreatedById = UserId;
+        var result = await CountryService.AddCountryAsync(country);
+        snackBar.Add("Country created successfully", Severity.Success);
+        navigation.NavigateTo("/countries");
     }
 
     public void BacktoList()
     {
-        navigation.NavigateTo("/departments");
+        navigation.NavigateTo("/countries");
     }
 }

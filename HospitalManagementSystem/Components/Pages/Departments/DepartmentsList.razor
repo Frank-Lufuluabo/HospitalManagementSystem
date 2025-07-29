@@ -97,7 +97,7 @@ else
 
     private async Task<List<Department>> GetAllDepartments()
     {
-        // departments = await DepartmentService.GetDepartmentsAsync();
+        departments = await DepartmentService.GetDepartmentsAsync();
 
         return departments;
     }
@@ -105,12 +105,12 @@ else
 
     private async void Edit(int id)
     {
-        // department = await DepartmentService.GetDepartmentByIdAsync(id);
+        department = await DepartmentService.GetDepartmentByIdAsync(id);
     }
 
     private async void Delete(int id)
     {
-        // department = await DepartmentService.DeleteDepartmentAsync(id);
+        department = await DepartmentService.DeleteDepartmentAsync(id);
     }
 
     private bool Search(Department department)
